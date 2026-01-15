@@ -1,0 +1,149 @@
+{
+	"info": {
+		"_postman_id": "3bb84b87-0f0f-499f-85eb-7d6eb40fe6e0",
+		"name": "be-cms-sgw",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44423504",
+		"_collection_link": "https://johan-4598232.postman.co/workspace/johan's-Workspace~de3a56da-191d-4a51-8aa1-753b3ceda53f/collection/44423504-3bb84b87-0f0f-499f-85eb-7d6eb40fe6e0?action=share&source=collection_link&creator=44423504"
+	},
+	"item": [
+		{
+			"name": "access token",
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "useBrowser",
+							"value": false,
+							"type": "boolean"
+						},
+						{
+							"key": "redirect_uri",
+							"value": "https://oauth.pstmn.io/v1/browser-callback",
+							"type": "string"
+						},
+						{
+							"key": "scope",
+							"value": "openid profile email",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "9TyzsNG5W6PJr8ABQV9FpUiIf8GO1248",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "cms-backend",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "http://localhost:8080/realms/cms-realm/protocol/openid-connect/token",
+							"type": "string"
+						},
+						{
+							"key": "authUrl",
+							"value": "http://localhost:8080/realms/cms-realm/protocol/openid-connect/auth",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/admin/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"content"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJRZmdWUm9PZVlkR3FidDZ0Z19rQ3FPVlg3ZXlNeVBoWldlZllzbTNwWTlvIn0.eyJleHAiOjE3NjgwMzkzOTMsImlhdCI6MTc2ODAzOTA5MywiYXV0aF90aW1lIjoxNzY4MDM5MDkzLCJqdGkiOiJvbnJ0YWM6YmU2YWMwNmEtYTEwMy02NTE0LWZiMGEtYjI3NDFkYjMwZmM0IiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9jbXMtcmVhbG0iLCJhdWQiOlsiY21zLWJhY2tlbmQiLCJhY2NvdW50Il0sInN1YiI6Ijc5MWYzNDg2LTc4ODMtNGJjNy1iNmZiLTE2MDlhOGEzZGEwOCIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNtcy1iYWNrZW5kIiwic2lkIjoiVm14TzNYX1hvWm43VmJudnFLNEQwRFotIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvKiJdLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtY21zLXJlYWxtIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IkpvaGFuIENocmlzdGlhbnNlbiIsInByZWZlcnJlZF91c2VybmFtZSI6ImpvaGFuY2hyaXN0aWFuc2VuNzgzQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJKb2hhbiIsImZhbWlseV9uYW1lIjoiQ2hyaXN0aWFuc2VuIiwiZW1haWwiOiJqb2hhbmNocmlzdGlhbnNlbjc4M0BnbWFpbC5jb20ifQ.VRxgAlSCzQEed9tV1_MDymcvl55wzjbnNQrXBUq6ZTnIGIRqeUqrXzsmA5LliDjUVlXnvgNY-K-1RMGMMJd3AxJJhks63x2VB8KyGMKGVpPvVWIVm-fJlUlfr9NsD0jnEyot0xvh6YnPYCn7DQCAAmuxWh5uSh3Np5Il47tKRgl_kb9pD14yC_BSz2V94zQ3MKC8qv4uJ6buxmZLmyh9yoIs9cosgGTPy8ynqZi9tSXBvCgCX5lZaxBx656RG6KsVdfdp7NoX7SPBjZGvllaXMSNSzFl9X27l7O9IYLHaBZVqLXbwsCfWc3Dh4iJ_XxmHyOyD_txbCzvcvljX9m-iQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/admin/content",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"admin",
+						"content"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "200",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/admin/content",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"admin",
+								"content"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": null,
+					"header": [
+						{
+							"key": "date",
+							"value": "Sat, 10 Jan 2026 09:58:23 GMT"
+						},
+						{
+							"key": "server",
+							"value": "uvicorn"
+						},
+						{
+							"key": "content-length",
+							"value": "115"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Hello Johan Christiansen, here is your private content.\",\n    \"user_email\": \"johanchristiansen783@gmail.com\"\n}"
+				}
+			]
+		}
+	]
+}
