@@ -1,0 +1,49 @@
+{
+  "id": "SGW-CMS",
+  "realm": "SGW-CMS",
+  "enabled": true,
+  "displayName": "SGW CMS Realm",
+  "clients": [
+    {
+      "clientId": "FlaskApp1",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "4cXgb6CchSS0hZ3qZ6rjNqIcknLPIEUK",
+      "redirectUris": [
+        "http://localhost:50100/oauth/login/callback",
+        "http://127.0.0.1:50100/oauth/login/callback",
+        "http://10.10.103.245:50100/oauth/login/callback"
+      ],
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:50100/"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "user1",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user1",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["user"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "admin" },
+      { "name": "user" }
+    ],
+    "client": {}
+  }
+}

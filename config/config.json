@@ -1,0 +1,6 @@
+{
+    "oauthAppClientId": "FlaskApp1",
+    "oauthAppClientSecret": "4cXgb6CchSS0hZ3qZ6rjNqIcknLPIEUK",
+    "oauthProviderDiscoveryUrl": "http://10.10.103.245:8000/realms/SGW-CMS/.well-known/openid-configuration",
+    "flaskSecret": "3a692dccdf0a4f8f9e7a4d612fc32877"
+}
