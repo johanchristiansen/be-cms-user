@@ -20,5 +20,4 @@ def loadAppConfig(fName="config/config.json") -> AppConfig:
 
 
 def getAppConfig() -> AppConfig:
-    global jsonConfig
     return jsonConfig
