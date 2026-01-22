@@ -1,0 +1,47 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 1. Create the config.json from GitHub Secrets before building the image
+      - name: Create Config File
+        run: |
+          mkdir -p config
+          echo '{
+            "oauthAppClientId": "${{ secrets.OAUTH_CLIENT_ID }}",
+            "oauthAppClientSecret": "${{ secrets.OAUTH_CLIENT_SECRET }}",
+            "oauthProviderDiscoveryUrl": "${{ secrets.OAUTH_PROVIDER_URL }}",
+            "flaskSecret": "${{ secrets.FLASK_SECRET }}"
+          }' > config/config.json
+
+      # 2. Log in to the GitHub Container Registry
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 3. Build and push the Docker image
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
