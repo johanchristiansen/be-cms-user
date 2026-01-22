@@ -9,6 +9,7 @@ class AppConfig:
     oauthProviderDiscoveryUrl: str = field(default="")
     flaskSecret: str = field(default="")
 
+jsonConfig: AppConfig = None
 
 def loadAppConfig(fName="config/config.json") -> AppConfig:
     global jsonConfig
