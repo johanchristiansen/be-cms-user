@@ -1,0 +1,52 @@
+name: Flask CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # This step recreates the config.json using your GitHub Secrets
+      - name: Create Config File
+        run: |
+          mkdir -p config
+          echo '{
+            "oauthAppClientId": "${{ secrets.OAUTH_CLIENT_ID }}",
+            "oauthAppClientSecret": "${{ secrets.OAUTH_CLIENT_SECRET }}",
+            "oauthProviderDiscoveryUrl": "${{ secrets.OAUTH_PROVIDER_URL }}",
+            "flaskSecret": "${{ secrets.FLASK_SECRET }}"
+          }' > config/config.json
+
+      - name: Lint with flake8 (Optional)
+        run: |
+          pip install flake8
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to Production
+        run: |
+          echo "Connecting to server and pulling latest changes..."
+          # Here you would add commands to SSH into your server or 
+          # push a Docker image to a registry.
