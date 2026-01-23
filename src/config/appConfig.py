@@ -9,6 +9,7 @@ class AppConfig:
     oauthAppClientSecret: str = field(default="")
     oauthProviderDiscoveryUrl: str = field(default="")
     flaskSecret: str = field(default="")
+    postLogoutRedirectUri: str = field(default="")
 
 jsonConfig: AppConfig = None
 
@@ -26,7 +27,8 @@ def loadAppConfig(fName="config/config.json") -> AppConfig:
             oauthAppClientId=os.getenv("OAUTH_CLIENT_ID"),
             oauthAppClientSecret=os.getenv("OAUTH_CLIENT_SECRET"),
             oauthProviderDiscoveryUrl=os.getenv("OAUTH_PROVIDER_URL"),
-            flaskSecret=os.getenv("FLASK_SECRET")
+            flaskSecret=os.getenv("FLASK_SECRET"),
+            postLogoutRedirectUri=os.getenv("POST_LOGOUT_REDIRECT_URI")
         )
     return jsonConfig
 
