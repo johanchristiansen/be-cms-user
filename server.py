@@ -7,7 +7,6 @@ from src.config.appConfig import loadAppConfig
 # https://stackoverflow.com/a/78419713/2746323
 # get application config
 appConfig = loadAppConfig()
-
 app = Flask(__name__)
 
 app.secret_key = appConfig.flaskSecret
