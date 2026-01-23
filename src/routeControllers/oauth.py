@@ -38,31 +38,49 @@ def login():
 @oauthPage.route("/login/callback")
 def callback():
     tokenResponse = oauth.keycloak.authorize_access_token()
-    idToken = tokenResponse["id_token"]
-    userInfo = tokenResponse["userinfo"]
-    # if roles are not included in id token, call user info endpoint explicitly 
-    # userInfo = oauth.keycloak.userinfo()
+    idToken = tokenResponse.get("id_token")
+    # tokenResponse may not include 'userinfo'; fall back to explicit userinfo call
+    userInfo = tokenResponse.get("userinfo") or oauth.keycloak.userinfo()
+    # robust role extraction
     uRoles = []
-    if oauth.keycloak.client_id in userInfo['resource_access']:
-        uRoles = userInfo['resource_access'][oauth.keycloak.client_id]["roles"]
-    if not (isinstance(uRoles, list)):
-        uRoles = [uRoles]
+    client_id = getattr(oauth.keycloak, "client_id", None)
+    if isinstance(userInfo, dict):
+        # resource_access -> client-specific roles
+        try:
+            if "resource_access" in userInfo and client_id in userInfo["resource_access"]:
+                roles = userInfo["resource_access"][client_id].get("roles", [])
+                uRoles = roles if isinstance(roles, list) else [roles]
+            # realm_access -> realm-level roles
+            elif "realm_access" in userInfo and "roles" in userInfo["realm_access"]:
+                roles = userInfo["realm_access"]["roles"]
+                uRoles = roles if isinstance(roles, list) else [roles]
+            # direct roles array
+            elif "roles" in userInfo:
+                roles = userInfo["roles"]
+                uRoles = roles if isinstance(roles, list) else [roles]
+        except Exception:
+            uRoles = []
     createUserSession(
-        userId=userInfo["sub"], userName=userInfo["preferred_username"], email=userInfo["email"], roles=uRoles, idToken=idToken)
+        userId=userInfo.get("sub", ""),
+        userName=userInfo.get("preferred_username", ""),
+        email=userInfo.get("email", ""),
+        roles=uRoles,
+        idToken=idToken or "")
     return redirect('/')
 
 
 @oauthPage.route("/logout")
 def logout():
-    # https://stackoverflow.com/a/72011979/2746323
     user = getUserFromSession()
     idToken = user["idToken"] if not user is None else None
     clearUserSession()
+    appConfig = getAppConfig()  # added
+    post_logout = appConfig.postLogoutRedirectUri if getattr(appConfig, "postLogoutRedirectUri", None) else url_for("index", _external=True)
     if idToken:
-        return redirect(str(oauth.keycloak.load_server_metadata().get('end_session_endpoint')) + "?"
+        return redirect(str(oauth.keycloak.load_server_metadata().get('end_session_endpoint')) + "?" 
                         + urlencode(
                             {
-                                "post_logout_redirect_uri": url_for("index", _external=True),
+                                "post_logout_redirect_uri": post_logout,
                                 "id_token_hint": idToken
                             },
                             quote_via=quote_plus))
